@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>गोपी वडापाव - फक्त वडापाव नाही, तर एक अनुभव!</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+			  margin: 0;
+			  padding: 0;
+			  box-sizing: border-box;
+			}
+
+			/* Page Background */
+			body {
+			  font-family: 'Poppins', sans-serif;
+			  /* background: linear-gradient(135deg, #ff9a56, #ffa500); */ /* commented properly */
+			  background: #0F1219; /* Full-page background */
+			  overflow-x: hidden;
+			  padding-top: 80px; /* Space for fixed navbar */
+			}
+
+			/* Navbar (fixed + transparent) */
+			.navbar {
+			  background: transparent; /* fully transparent */
+			  padding: 10px 0;
+			  position: fixed;
+			  top: 0;
+			  width: 100%;
+			  z-index: 1000;
+			  backdrop-filter: blur(10px); /* glass effect */
+			  transition: background 0.3s ease, box-shadow 0.3s ease;
+			}
+
+			/* On scroll, give slight tint for readability */
+			.navbar.scrolled {
+			  background: rgba(212, 107, 255, 0.4);
+			  box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+			}
+
+			.nav-container {
+			  max-width: 1200px;
+			  margin: 0 auto;
+			  display: flex;
+			  justify-content: space-between;
+			  align-items: center;
+			  padding: 0 20px;
+			}
+
+			.nav-logo-container {
+			  display: flex;
+			  align-items: center;
+			  gap: 15px;
+			}
+
+			.nav-logo-image {
+			  width: 60px;
+			  height: 60px;
+			  border-radius: 15px;
+			  transition: all 0.3s ease;
+			  background: none;
+			  object-fit: cover;
+			  padding: 0;
+			  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+			  background-image: url("https://i.postimg.cc/bJTmq3bp/Gopi-Task.png");
+			  background-size: cover;
+			  background-position: center;
+			}
+	
+			.nav-logo-image:hover {
+			  transform: scale(1.1) rotate(5deg);
+			  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.5);
+			}
+
+			/* Remove the nav-logo-svg completely */
+			.nav-logo-svg {
+			  display: none !important;
+			}
+
+			.nav-logo-text {
+			  font-size: 1.9rem;
+			  font-weight: bold;
+			  color: #ffa500;
+			}
+
+			.nav-menu {
+			  display: flex;
+			  list-style: none;
+			  gap: 30px;
+			}
+
+			.nav-menu li a {
+			  color: white;
+			  text-decoration: none;
+			   font-weight: bold;
+			  transition: all 0.3s ease;
+			  padding: 8px 16px;
+			  border-radius: 20px;
+			}
+
+			.nav-menu li a:hover {
+			  background: #ffa500;
+			  color: #8B4513;
+			  transform: translateY(-2px);
+			}
+
+			.hamburger {
+			  display: none;
+			  flex-direction: column;
+			  cursor: pointer;
+			}
+
+			.hamburger span {
+			  width: 25px;
+			  height: 3px;
+			  background: white;
+			  margin: 3px 0;
+			  transition: 0.3s;
+			}
+			
+			.hero {
+				  position: relative;
+				  display: flex;
+				  align-items: center; /* ✅ vertical centering */
+				  justify-content: center; /* ✅ horizontal centering */
+				  min-height: calc(100vh - 80px);
+				  background: url("https://i.postimg.cc/RFNW00Jh/gopi-vadapav-background.jpg") no-repeat center center;
+				  background-size: cover;
+				  overflow: hidden;
+				  text-align: center;
+				  padding: 2rem;
+				}
+
+				.hero-overlay {
+				  position: relative;
+				  z-index: 2;
+				  max-width: 700px;
+				  width: 100%;
+				}
+
+				/* ✅ Responsive text that always stays centered */
+				.hero-content h1 {
+				  font-size: clamp(2rem, 5vw, 4rem);
+				  color: white;
+				  margin-bottom: 20px;
+				  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+				}
+
+				.hero-content p {
+				  font-size: clamp(1rem, 3vw, 1.5rem);
+				  color: white;
+				  margin-bottom: 30px;
+				}
+
+				.cta-button {
+				  background: #8B4513;
+				  color: white;
+				  padding: 15px 40px;
+				  border: none;
+				  border-radius: 50px;
+				  font-size: 1.2rem;
+				  cursor: pointer;
+				  transition: all 0.3s ease;
+				  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+				}
+
+				.cta-button:hover {
+				  background: #654321;
+				  transform: translateY(-5px);
+				  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+				}
+
+				/* ✅ MOBILE FIX: no black section, image + text in one hero */
+				@media (max-width: 768px) {
+				  .hero {
+					flex-direction: column;
+					justify-content: flex-start; /* moves text to upper area */
+					align-items: center;
+					background: url("https://i.postimg.cc/5t4tySkn/Generated-Image-September-08-2025-1-03-PM.png") no-repeat top center;
+					background-size: cover; /* fills entire hero, avoids empty section */
+					min-height: 100vh;
+					height: auto;
+					padding: 2rem 1rem 1rem;
+				  }
+
+				  .hero-overlay {
+					max-width: 90%;
+					margin-top: auto; /* text stays inside hero, not below */
+					text-align: center;
+				  }
+
+				  .hero-content h1 {
+					font-size: 1.8rem;
+				  }
+
+				  .hero-content p {
+					font-size: 1rem;
+				  }
+				}
+
+				/* Floating vadapav decorative elements (kept from your code) */
+				.floating-vadapav {
+				  position: absolute;
+				  font-size: 0;
+				  width: 40px;
+				  height: 40px;
+				  opacity: 0.15;
+				  pointer-events: none;
+				  z-index: 1;
+				  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="%23f4c2a1" stroke="%238B4513" stroke-width="2"/><circle cx="20" cy="16" r="12" fill="%23ffa500" stroke="%238B4513" stroke-width="1"/><path d="M10 16 Q20 10 30 16" stroke="%23228B22" stroke-width="2" fill="none"/></svg>') center/contain no-repeat;
+				}
+
+				.floating-vadapav:nth-child(1) { top: 10%; left: 10%; }
+				.floating-vadapav:nth-child(2) { top: 20%; right: 10%; }
+				.floating-vadapav:nth-child(3) { bottom: 20%; left: 15%; }
+				.floating-vadapav:nth-child(4) { top: 60%; right: 20%; }
+				.floating-vadapav:nth-child(5) { top: 40%; left: 5%; }
+				.floating-vadapav:nth-child(6) { bottom: 40%; right: 5%; }
+
+        .menu-section {
+            padding: 100px 20px;
+            background: #d46bff;
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: #d46bff;
+            margin-bottom: 50px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 165, 0, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .menu-card:hover::before {
+            left: 100%;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .menu-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #ffa500;
+            object-fit: cover;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            background: #f0f0f0;
+        }
+
+        .menu-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 25px rgba(255, 165, 0, 0.5);
+        }
+
+        .menu-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #ffa500;
+            background: linear-gradient(135deg, #f4c2a1, #d4a574);
+            margin: 0 auto 20px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-placeholder::before {
+            content: '';
+            width: 80px;
+            height: 50px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 50"><ellipse cx="40" cy="35" rx="35" ry="12" fill="%23f4c2a1" stroke="%238B4513" stroke-width="2"/><ellipse cx="40" cy="25" rx="30" ry="15" fill="%23ffa500" stroke="%238B4513" stroke-width="2"/><path d="M15 25 Q40 15 65 25" stroke="%23228B22" stroke-width="3" fill="none"/></svg>') center/contain no-repeat;
+        }
+
+        .menu-placeholder:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 25px rgba(255, 165, 0, 0.5);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: #8B4513;
+            margin-bottom: 15px;
+        }
+
+        .menu-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+
+        .share-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #ff6b35, #ffa500);
+            color: white;
+            text-align: center;
+        }
+
+        .share-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .share-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .share-btn.whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+
+        .share-btn.facebook {
+            background: linear-gradient(135deg, #1877F2, #166FE5);
+        }
+
+        .share-btn.twitter {
+            background: linear-gradient(135deg, #1DA1F2, #0E7DB8);
+        }
+
+        .share-btn.copy {
+            background: linear-gradient(135deg, #6c757d, #495057);
+        }
+
+        .about-section {
+            padding: 100px 20px;
+            background: linear-gradient(45deg, #8B4513, #654321);
+            color: white;
+        }
+
+        .about-content {
+            text-align: center;
+        }
+
+        .about-content h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        .about-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer {
+            background: #2c2c2c;
+            padding: 50px 20px 20px;
+            color: white;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ffa500;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b35, #ffa500);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .social-links a:hover::before {
+            left: 100%;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+        }
+
+        .social-links a.whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .social-links a.whatsapp:hover {
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        .social-links a.instagram {
+            background: linear-gradient(135deg, #E4405F, #C13584, #833AB4);
+            box-shadow: 0 4px 15px rgba(228, 64, 95, 0.3);
+        }
+
+        .social-links a.instagram:hover {
+            box-shadow: 0 8px 25px rgba(228, 64, 95, 0.5);
+        }
+
+        .social-links a.phone {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .social-links a.phone:hover {
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #888;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: rgba(139, 69, 19, 0.95);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                backdrop-filter: blur(10px);
+                padding: 20px 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .hero {
+                height: calc(100vh - 70px);
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-vadapav {
+                display: none;
+            }
+
+            .share-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-logo-container {
+                gap: 10px;
+            }
+
+            .nav-logo-text {
+                font-size: 1.4rem;
+            }
+
+            .nav-logo-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo-container">
+                <img src="https://i.postimg.cc/bJTmq3bp/Gopi-Task.png" alt="Gopi Vadapav Logo" class="nav-logo-image">
+                <div class="nav-logo-text">गोपी वडापाव</div>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home">मुख्य पृष्ठ</a></li>
+                <li><a href="#menu">मेन्यू</a></li>
+                <li><a href="#about">आमच्याबद्दल</a></li>
+                <li><a href="#contact">संपर्क</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-vadapav"></div>
+        <div class="floating-vadapav"></div>
+        <div class="floating-vadapav"></div>
+        <div class="floating-vadapav"></div>
+        <div class="floating-vadapav"></div>
+        <div class="floating-vadapav"></div>
+        
+        <div class="hero-content">
+            <h1 id="heroTitle">गोपी वडापाव</h1>
+            <p id="heroSubtitle">मुंबईचा स्वाद, लहूच्या हाताचा जादू!</p>
+            <button class="cta-button" id="ctaButton" onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})">
+                मेन्यू पहा
+            </button>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section" id="menu">
+        <div class="container">
+            <h2 class="section-title" id="menuTitle">आमचे स्पेशल मेन्यू</h2>
+            <div class="menu-grid">
+                <div class="menu-card" data-menu="vadapav">
+                    <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&h=400&fit=crop" alt="Vadapav Special" class="menu-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="menu-placeholder"></div>
+                    <h3>वडापाव स्पेशल</h3>
+                    <p>ताज्या बटाट्याचे वडे आणि मुलायम पावभाजीसह तयार केलेला आमचा स्पेशल वडापाव</p>
+                    <div class="price">₹15</div>
+                </div>
+
+                <div class="menu-card" data-menu="single-vada">
+                    <img src="https://i.postimg.cc/C1d8X7FR/1.jpg" alt="Single Vada" class="menu-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="menu-placeholder"></div>
+                    <h3>सिंगल वडापाव</h3>
+                    <p>क्रकरीत आणि गरम बटाट्याचा वडा, हरी चटणी आणि गोड चटणीसोबत</p>
+                    <div class="price">₹15</div>
+                </div>
+
+                <div class="menu-card" data-menu="double-vada">
+                    <img src="https://i.postimg.cc/Lsx0Fm1N/2.jpg" alt="Double Vada" class="menu-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="menu-placeholder"></div>
+                    <h3>डबल वडापाव</h3>
+                    <p>दोन मोठे क्रकरीत वडे, अतिरिक्त चटण्यांसोबत आणि कांदा मिरचीसह</p>
+                    <div class="price">₹25</div>
+                </div>
+
+                <div class="menu-card" data-menu="bhajiya">
+                    <img src="https://i.postimg.cc/zv09vqst/1.jpg" alt="Bhajiya Pakoda" class="menu-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="menu-placeholder"></div>
+                    <h3>भजी</h3>
+                    <p>कांदा, बटाटा, मिरची यांचे क्रकरीत भाजी पकोडे, गरमागरम चहासोबत परफेक्ट</p>
+                    <div class="price">₹15</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Share Section -->
+    <section class="share-section" id="share">
+        <div class="container">
+            <div class="share-content">
+                <h2>मित्रांसह शेअर करा!</h2>
+                <p>आमच्या स्वादिष्ट वडापावची माहिती तुमच्या मित्र-मैत्रिणींसह शेअर करा</p>
+                <div class="share-buttons">
+                    <a href="#" class="share-btn whatsapp" onclick="shareOnWhatsApp()">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp वर शेअर करा
+                    </a>
+                    <a href="#" class="share-btn facebook" onclick="shareOnFacebook()">
+                        <i class="fab fa-facebook"></i>
+                        Facebook वर शेअर करा
+                    </a>
+                    <a href="#" class="share-btn twitter" onclick="shareOnTwitter()">
+                        <i class="fab fa-twitter"></i>
+                        Twitter वर शेअर करा
+                    </a>
+                    <button class="share-btn copy" onclick="copyWebsiteLink()">
+                        <i class="fas fa-link"></i>
+                        लिंक कॉपी करा
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-content" id="aboutContent">
+                <h2>आमच्याबद्दल</h2>
+                <p>गोपी वडापाव हे केवळ खाण्याचे स्थान नाही, तर मुंबईच्या खऱ्या स्वादाचा अनुभव आहे. आम्ही गेल्या अनेक वर्षांपासून प्रत्येक ग्राहकाला खऱ्या आणि स्वादिष्ट वडापावचा आस्वाद देत आहोत. आमच्या हातून तयार होणारा प्रत्येक वडापाव प्रेमाने आणि काळजीने बनवला जातो. आमचे सर्व साहित्य ताजे आणि दर्जेदार आहे, आणि आम्ही नेहमीच ग्राहकांच्या समाधानाला प्राधान्य देतो.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>संपर्क माहिती</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +91 9637374006</p>
+                    <p><i class="fab fa-whatsapp"></i> WhatsApp: 9637374006</p>
+                    <p><i class="fas fa-map-marker-alt"></i> गोपी वडापाव 
+															 छत्रपती शिवाजी महाराज चौक 
+															 जामनेर रोड पाचोरा</p>
+                </div>
+                <div class="social-links">
+                    <a href="https://wa.me/919637374006" target="_blank" title="WhatsApp" class="whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.instagram.com/s_a_t_y_a_official?igsh=MWJ4amhvcGhrM2E2Zw==" target="_blank" title="Instagram" class="instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="tel:+919637374006" title="Call" class="phone">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>आमचे स्थान</h3>
+                <div class="map-container">
+                    <iframe 
+						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3730.239553664523!2d75.3500194!3d20.6664917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd969ebc53c17c7%3A0x51d8244bd2c83a1a!2sVivekanand%20Nagar%2C%20Shivaji%20Nagar%2C%20Pachora%2C%20Maharashtra%20424201%2C%20India!5e0!3m2!1sen!2sin!4v1725200000000!5m2!1sen!2sin" 
+
+						width="100%" 
+
+						height="300" 
+
+						style="border:0;" 
+
+						allowfullscreen="" 
+
+						loading="lazy">
+
+					</iframe>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="footer-section">
+
+                <h3>कार्य वेळा</h3>
+
+                <div class="contact-info">
+
+                    <p><i class="fas fa-clock"></i> सकाळ 8:00 - रात्री 11:00</p>
+
+                    <p><i class="fas fa-calendar"></i> सोमवार ते रविवार</p>
+
+                    <p><i class="fas fa-star"></i> रविवारी स्पेशल मेन्यू</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+
+        <div class="copyright">
+
+            <p>&copy; 2025 गोपी वडापाव - सत्यजीत लहू रायसकडे. सर्व हक्क राखीव. | Made with ❤️ for Vadapav Lovers</p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- Toast Notification -->
+
+    <div class="toast" id="toast">
+
+        <i class="fas fa-check-circle"></i> <span id="toastMessage"></span>
+
+    </div>
+
+
+
+    <script>
+
+        // Register GSAP plugins
+
+        gsap.registerPlugin(ScrollTrigger);
+
+
+
+        // Mobile menu toggle
+
+        const hamburger = document.getElementById('hamburger');
+
+        const navMenu = document.getElementById('nav-menu');
+
+
+
+        hamburger.addEventListener('click', () => {
+
+            hamburger.classList.toggle('active');
+
+            navMenu.classList.toggle('active');
+
+        });
+
+
+
+        // Close mobile menu when clicking on a link
+
+        document.querySelectorAll('.nav-menu a').forEach(n => n.addEventListener('click', () => {
+
+            hamburger.classList.remove('active');
+
+            navMenu.classList.remove('active');
+
+        }));
+
+
+
+        // Share Functions
+
+        function shareOnWhatsApp() {
+
+            const text = "गोपी वडापाव - मुंबईचा स्वाद, गोपीच्या हाताचा जादू! 🥪\nअसली वडापाव चाखायची आहे तर भेट द्या.\n📍 छत्रपती शिवाजी महाराज चौक, जामनेर रोड, पाचोरा\n📞 9637374006";
+
+            const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+
+            window.open(url, '_blank');
+
+        }
+
+
+
+        function shareOnFacebook() {
+
+            const url = window.location.href;
+
+            const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+
+            window.open(facebookUrl, '_blank', 'width=600,height=400');
+
+        }
+
+
+
+        function shareOnTwitter() {
+
+            const text = "गोपी वडापाव - मुंबईचा स्वाद! 🥪 #VadaPav #StreetFood #Mumbai";
+
+            const url = window.location.href;
+
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+
+            window.open(twitterUrl, '_blank', 'width=600,height=400');
+
+        }
+
+
+
+        function copyWebsiteLink() {
+
+            const url = window.location.href;
+
+            navigator.clipboard.writeText(url).then(() => {
+
+                showToast('लिंक कॉपी केली गेली! 📋');
+
+            }).catch(() => {
+
+                showToast('लिंक कॉपी करण्यात त्रुटी! 😔');
+
+            });
+
+        }
+
+
+
+        function showToast(message) {
+
+            const toast = document.getElementById('toast');
+
+            const toastMessage = document.getElementById('toastMessage');
+
+            toastMessage.textContent = message;
+
+            toast.classList.add('show');
+
+            
+
+            setTimeout(() => {
+
+                toast.classList.remove('show');
+
+            }, 3000);
+
+        }
+
+
+
+        // Initial animations on page load
+
+        window.addEventListener('load', () => {
+
+            // Logo animation
+
+            gsap.to("#logoSection", {
+
+                y: 0,
+
+                opacity: 1,
+
+                duration: 1.5,
+
+                ease: "bounce.out"
+
+            });
+
+
+
+            gsap.to("#logoIcon", {
+
+                scale: 1,
+
+                duration: 1,
+
+                delay: 0.5,
+
+                ease: "back.out(1.7)"
+
+            });
+
+
+
+            // Navbar animation
+
+            gsap.to("#navbar", {
+
+                y: 0,
+
+                opacity: 1,
+
+                duration: 1,
+
+                delay: 1,
+
+                ease: "power2.out"
+
+            });
+
+
+
+            // Hero content animations
+
+            gsap.to("#heroTitle", {
+
+                scale: 1,
+
+                opacity: 1,
+
+                duration: 1.5,
+
+                delay: 1.5,
+
+                ease: "back.out(1.7)"
+
+            });
+
+
+
+            gsap.to("#heroSubtitle", {
+
+                y: 0,
+
+                opacity: 1,
+
+                duration: 1,
+
+                delay: 2,
+
+                ease: "power2.out"
+
+            });
+
+
+
+            gsap.to("#ctaButton", {
+
+                y: 0,
+
+                opacity: 1,
+
+                duration: 1,
+
+                delay: 2.5,
+
+                ease: "power2.out"
+
+            });
+
+        });
+
+
+
+        // Scroll-triggered animations
+
+        gsap.to("#menuTitle", {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration: 1,
+
+            scrollTrigger: {
+
+                trigger: "#menuTitle",
+
+                start: "top 80%",
+
+                end: "bottom 20%",
+
+                toggleActions: "play none none reverse"
+
+            }
+
+        });
+
+
+
+        // Menu cards animation
+
+        gsap.utils.toArray('.menu-card').forEach((card, index) => {
+
+            gsap.to(card, {
+
+                y: 0,
+
+                opacity: 1,
+
+                duration: 0.8,
+
+                delay: index * 0.2,
+
+                scrollTrigger: {
+
+                    trigger: card,
+
+                    start: "top 85%",
+
+                    end: "bottom 15%",
+
+                    toggleActions: "play none none reverse"
+
+                }
+
+            });
+
+        });
+
+
+
+        // About section animation
+
+        gsap.to("#aboutContent", {
+
+            y: 0,
+
+            opacity: 1,
+
+            duration: 1.5,
+
+            scrollTrigger: {
+
+                trigger: "#aboutContent",
+
+                start: "top 80%",
+
+                end: "bottom 20%",
+
+                toggleActions: "play none none reverse"
+
+            }
+
+        });
+
+
+
+        // Menu card hover effects
+
+        document.querySelectorAll('.menu-card').forEach(card => {
+
+            const emoji = card.querySelector('.menu-emoji');
+
+            const image = card.querySelector('.menu-image');
+
+            
+
+            card.addEventListener('mouseenter', () => {
+
+                if (emoji && emoji.style.display !== 'none') {
+
+                    gsap.to(emoji, {
+
+                        scale: 1.3,
+
+                        rotation: 360,
+
+                        duration: 0.5,
+
+                        ease: "back.out(1.7)"
+
+                    });
+
+                }
+
+                if (image && image.style.display !== 'none') {
+
+                    gsap.to(image, {
+
+                        scale: 1.1,
+
+                        rotation: 5,
+
+                        duration: 0.3,
+
+                        ease: "power2.out"
+
+                    });
+
+                }
+
+            });
+
+
+
+            card.addEventListener('mouseleave', () => {
+
+                if (emoji && emoji.style.display !== 'none') {
+
+                    gsap.to(emoji, {
+
+                        scale: 1,
+
+                        rotation: 0,
+
+                        duration: 0.3,
+
+                        ease: "power2.out"
+
+                    });
+
+                }
+
+                if (image && image.style.display !== 'none') {
+
+                    gsap.to(image, {
+
+                        scale: 1,
+
+                        rotation: 0,
+
+                        duration: 0.3,
+
+                        ease: "power2.out"
+
+                    });
+
+                }
+
+            });
+
+        });
+
+
+
+        // Add pulse animation to CTA button
+
+        setInterval(() => {
+
+            gsap.to("#ctaButton", {
+
+                scale: 1.05,
+
+                duration: 0.3,
+
+                yoyo: true,
+
+                repeat: 1,
+
+                ease: "power2.inOut"
+
+            });
+
+        }, 3000);
+
+
+
+        // Enhanced floating animation for vadapav and vada elements
+
+        gsap.utils.toArray('.floating-vadapav').forEach((item, index) => {
+
+            // Create continuous top-to-bottom floating animation that enhances UX
+
+            gsap.set(item, { y: -150, opacity: 0.2 });
+
+            
+
+            // Main floating animation - smooth top to bottom
+
+            const floatTimeline = gsap.timeline({ repeat: -1 });
+
+            floatTimeline
+
+                .to(item, {
+
+                    y: window.innerHeight + 150,
+
+                    opacity: 0.3,
+
+                    duration: 12 + index * 2,
+
+                    ease: "none"
+
+                })
+
+                .set(item, { y: -150, opacity: 0.2 });
+
+
+
+            // Add gentle horizontal swaying for natural movement
+
+            gsap.to(item, {
+
+                x: "+=40",
+
+                duration: 4 + index * 0.8,
+
+                repeat: -1,
+
+                yoyo: true,
+
+                ease: "sine.inOut",
+
+                delay: index * 1.2
+
+            });
+
+
+
+            // Subtle rotation for enhanced visual appeal
+
+            gsap.to(item, {
+
+                rotation: 360,
+
+                duration: 15 + index * 3,
+
+                repeat: -1,
+
+                ease: "none",
+
+                delay: index * 0.5
+
+            });
+
+
+
+            // Scale animation for breathing effect
+
+            gsap.to(item, {
+
+                scale: 1.2,
+
+                duration: 2.5 + index * 0.3,
+
+                repeat: -1,
+
+                yoyo: true,
+
+                ease: "power2.inOut",
+
+                delay: index * 0.8
+
+            });
+
+        });
+
+
+
+        // Smooth scrolling for navigation links
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+            anchor.addEventListener('click', function (e) {
+
+                e.preventDefault();
+
+                const target = document.querySelector(this.getAttribute('href'));
+
+                if (target) {
+
+                    target.scrollIntoView({
+
+                        behavior: 'smooth',
+
+                        block: 'start'
+
+                    });
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
